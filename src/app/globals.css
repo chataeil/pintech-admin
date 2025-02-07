@@ -40,11 +40,19 @@ dd {
 
 /* 공통 */
 .layout-width {
-  max-width: 1300px;
-  min-width: 1000px;
-  margin: 0 auto;
+  min-width: 1300px;
+  padding: 0 10px;
 }
 
 .main-content {
-  min-height: 600px;
+  display: flex;
+}
+
+.main-contents > aside {
+  width: 220px;
+}
+
+.main-contents > section {
+  flex-grow: 1;
+  padding: 50px;
 }

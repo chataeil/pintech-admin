@@ -1,7 +1,6 @@
 // import { styled } from 'styled-components'
 import StyledComponentsRegistry from './registry'
 import Header from './global/ui/outlines/Header'
-import Footer from './global/ui/outlines/Footer'
 import { CommonProvider } from './global/contexts/CommonContext'
 import { Metadata } from 'next'
 import { getUserInfo } from './member/services/actions'
@@ -10,7 +9,7 @@ import { UserProvider } from './global/contexts/UserContext'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: '핀테크 과정 포트폴리오',
+  title: 'CIS 관리자 페이지',
   description: '설명 ...',
 }
 
@@ -27,11 +26,12 @@ export default async function RootLayout({
       <body>
         <StyledComponentsRegistry>
           <UserProvider _userInfo={userInfo}>
-            <CommonProvider>
-              <Header />
-              <main className="main-content">{children}</main>
-              <Footer />
-            </CommonProvider>
+            <Header />
+            <main className="main-contents">
+              <CommonProvider>
+                <section>{children}</section>
+              </CommonProvider>
+            </main>
           </UserProvider>
         </StyledComponentsRegistry>
       </body>
