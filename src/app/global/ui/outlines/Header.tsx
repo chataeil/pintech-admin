@@ -3,13 +3,15 @@ import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { styled } from 'styled-components'
-import { SlLogin } from 'react-icons/sl'
+import { SlLogin, SlLogout } from 'react-icons/sl'
 import { FaUserPlus, FaHome, FaSearch } from 'react-icons/fa'
+import { MdContactPage } from 'react-icons/md'
 import colors from '../../styles/colors'
 import sizes from '../../styles/sizes'
 import logo from '../../assets/images/logo.png'
+import useUser from '../../hooks/useUser'
 
-const { primary, light, dark, white } = colors
+const { white, primary, light, dark } = colors
 const { medium, big } = sizes
 
 const StyledHeader = styled.header`
@@ -29,10 +31,8 @@ const StyledHeader = styled.header`
         a + a {
           margin-left: 10px;
         }
-        a {
-          line-height: 1;
-        }
       }
+
       svg {
         font-size: ${big};
       }
@@ -59,6 +59,7 @@ const StyledForm = styled.form`
     color: ${white};
     border: 0;
     cursor: pointer;
+
     svg {
       font-size: ${big};
     }
@@ -71,13 +72,13 @@ const StyledForm = styled.form`
     font-size: ${medium};
   }
 `
+
 const StyledMenu = styled.nav`
   background: ${primary};
 
   .layout-width {
     display: flex;
     height: 50px;
-    align-items: center;
 
     a {
       color: ${light};
@@ -94,6 +95,10 @@ const StyledMenu = styled.nav`
 `
 
 const Header = () => {
+  const { userInfo, isLogin } = useUser()
+  const email = userInfo?.email
+  const name = userInfo?.name
+
   return (
     <StyledHeader>
       <div className="site-top">
@@ -104,15 +109,30 @@ const Header = () => {
             </Link>
           </div>
           <div className="right">
-            <a href={'/member/join'}>
-              <FaUserPlus /> 회원가입
-            </a>
-            <a href={'/member/login'}>
-              <SlLogin /> 로그인
-            </a>
+            {isLogin ? (
+              <>
+                {name}({email})님,
+                <a href="/mypage">
+                  <MdContactPage /> 마이페이지
+                </a>
+                <a href="/member/api/logout">
+                  <SlLogout /> 로그아웃
+                </a>
+              </>
+            ) : (
+              <>
+                <a href="/member/join">
+                  <FaUserPlus /> 회원가입
+                </a>
+                <a href="/member/login">
+                  <SlLogin /> 로그인
+                </a>
+              </>
+            )}
           </div>
         </div>
       </div>
+      {/* site-top */}
       <div className="logo-search">
         <div className="layout-width">
           <Link href="/" className="logo">
@@ -127,6 +147,7 @@ const Header = () => {
           </StyledForm>
         </div>
       </div>
+      {/* logo-search */}
       <StyledMenu>
         <div className="layout-width">
           <a href="#">메뉴1</a>
